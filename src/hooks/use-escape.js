@@ -12,5 +12,6 @@ export const useEscapeKey = (callback) => {
         return () => {
             window.removeEventListener('keydown', handleEscape);
         };
-    }, [callback]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 };
