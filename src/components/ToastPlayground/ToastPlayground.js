@@ -4,6 +4,7 @@ import Button from '../Button';
 import ToastShelf from '../ToastShelf';
 
 import styles from './ToastPlayground.module.css';
+import { useToasts } from '../ToastProvider';
 
 const VARIANT_OPTIONS = ['notice', 'warning', 'success', 'error'];
 const DEFAULT_VARIANT = VARIANT_OPTIONS[0];
@@ -11,24 +12,15 @@ const DEFAULT_VARIANT = VARIANT_OPTIONS[0];
 function ToastPlayground() {
     const [message, setMessage] = React.useState('');
     const [checkedVariant, setCheckedVariant] = React.useState(DEFAULT_VARIANT);
-    const [shownToasts, setShownToasts] = React.useState([]);
+    const { sendToast } = useToasts();
 
     function submitHandler(event) {
         event.preventDefault();
-        setShownToasts([
-            ...shownToasts,
-            {
-                id: crypto.randomUUID(),
-                variant: checkedVariant,
-                message,
-            },
-        ]);
+        sendToast({
+            message,
+            variant: checkedVariant,
+        });
         resetInputs();
-    }
-
-    function dismissToast(id) {
-        const remainingToasts = shownToasts.filter((toast) => toast.id !== id);
-        setShownToasts(remainingToasts);
     }
 
     function resetInputs() {
@@ -43,7 +35,7 @@ function ToastPlayground() {
                 <h1>Toast Playground</h1>
             </header>
 
-            <ToastShelf toasts={shownToasts} dismissToast={dismissToast} />
+            <ToastShelf />
 
             <div className={styles.controlsWrapper}>
                 <div className={styles.row}>
