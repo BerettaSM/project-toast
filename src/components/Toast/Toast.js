@@ -19,8 +19,7 @@ const ICONS_BY_VARIANT = {
 };
 
 function Toast({ children, variant, onDismiss }) {
-
-    if(!(variant in ICONS_BY_VARIANT)) {
+    if (!(variant in ICONS_BY_VARIANT)) {
         throw new Error(`Unrecognized variant received: "${variant}".`);
     }
 
@@ -31,10 +30,17 @@ function Toast({ children, variant, onDismiss }) {
             <div className={styles.iconContainer}>
                 <Icon size={24} />
             </div>
-            <p className={styles.content}>{children}</p>
-            <button className={styles.closeButton} onClick={onDismiss}>
+            <p className={styles.content}>
+                <VisuallyHidden>{variant} - </VisuallyHidden>
+                {children}
+            </p>
+            <button
+                className={styles.closeButton}
+                onClick={onDismiss}
+                aria-label="Dismiss message"
+                aria-live="off"
+            >
                 <X size={24} />
-                <VisuallyHidden>Dismiss message</VisuallyHidden>
             </button>
         </div>
     );
