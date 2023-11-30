@@ -3,9 +3,12 @@ import React from 'react';
 import Toast from '../Toast';
 import styles from './ToastShelf.module.css';
 import { useToasts } from '../ToastProvider';
+import { useEscapeKey } from '../../hooks';
 
 function ToastShelf() {
-    const { shownToasts, dismissToast } = useToasts();
+    const { shownToasts, dismissToast, dismissAllToasts } = useToasts();
+
+    useEscapeKey(dismissAllToasts);
 
     return (
         <ol className={styles.wrapper}>
